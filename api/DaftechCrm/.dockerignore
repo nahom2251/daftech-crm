@@ -1,7 +1,0 @@
-bin/
-obj/
-logs/
-App_Data/
-.git/
-.vs/
-*.user
