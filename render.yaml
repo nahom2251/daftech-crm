@@ -1,6 +1,20 @@
 services:
+  # ---------- Backend API (.NET Core) ----------
   - type: web
-    name: daftech-crm
+    name: daftech-crm-api
+    runtime: dotnet
+    rootDir: api/DaftechCrm
+    buildCommand: dotnet publish src/DaftechCrm.Api/DaftechCrm.Api.csproj -c Release -o ./out
+    startCommand: dotnet ./out/DaftechCrm.Api.dll
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: DOTNET_VERSION
+        value: 8.0.0
+
+  # ---------- Frontend (Angular) ----------
+  - type: web
+    name: daftech-crm-web
     runtime: static
     rootDir: ng/daftech-crm
     buildCommand: npm run build
