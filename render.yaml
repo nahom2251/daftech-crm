@@ -1,16 +1,15 @@
 services:
-  # ---------- Backend API (.NET Core) ----------
+  # ---------- Backend API (Docker) ----------
   - type: web
     name: daftech-crm-api
-    runtime: dotnet
+    runtime: docker
     rootDir: api/DaftechCrm
-    buildCommand: dotnet publish src/DaftechCrm.Api/DaftechCrm.Api.csproj -c Release -o ./out
-    startCommand: dotnet ./out/DaftechCrm.Api.dll
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    plan: free
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: DOTNET_VERSION
-        value: 8.0.0
 
   # ---------- Frontend (Angular) ----------
   - type: web
@@ -23,3 +22,4 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+    plan: free
