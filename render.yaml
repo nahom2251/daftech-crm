@@ -1,5 +1,5 @@
 services:
-  # ---------- Backend API (Docker) ----------
+  # ---------- Backend API (.NET via Docker) ----------
   - type: web
     name: daftech-crm-api
     runtime: docker
@@ -11,15 +11,15 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
 
-  # ---------- Frontend (Angular) ----------
+  # ---------- Frontend (Angular - Static) ----------
   - type: web
     name: daftech-crm-web
     runtime: static
     rootDir: ng/daftech-crm
     buildCommand: npm run build
     staticPublishPath: dist/daftech-crm/browser
+    plan: free
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
-    plan: free
