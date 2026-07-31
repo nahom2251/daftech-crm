@@ -1,0 +1,51 @@
+<div class="dialog-backdrop" (click)="close()">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="upload-title" (click)="$event.stopPropagation()">
+    <header>
+      <h2 id="upload-title">Upload scanned agreement</h2>
+      <p class="text-muted" *ngIf="documentNumber">Document {{ documentNumber }}</p>
+    </header>
+
+    <div
+      class="dropzone"
+      [class.dragging]="dragging()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+    >
+      <ng-container *ngIf="!file(); else preview">
+        <p class="drop-title">Drag &amp; drop the scanned file here</p>
+        <p class="text-muted small">or</p>
+        <label class="btn btn-secondary btn-sm">
+          Choose a file
+          <input type="file" [accept]="accept" (change)="onPicked($event)" hidden />
+        </label>
+        <p class="text-muted small">Allowed: {{ allowedList }} — up to 10 MB</p>
+      </ng-container>
+
+      <ng-template #preview>
+        <div class="file-preview">
+          <span class="file-icon">{{ iconLabel(file()!) }}</span>
+          <div class="file-meta">
+            <strong>{{ file()!.name }}</strong>
+            <span class="text-muted small">{{ sizeLabel(file()!) }}</span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="clear()" [disabled]="uploading()">Remove</button>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="progress" *ngIf="uploading()">
+      <div class="bar"><div class="fill" [style.width.%]="progress()"></div></div>
+      <span class="small">{{ progress() }}%</span>
+    </div>
+
+    <p class="error" *ngIf="error()">{{ error() }}</p>
+
+    <footer>
+      <button type="button" class="btn btn-secondary" (click)="close()" [disabled]="uploading()">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="upload()" [disabled]="!file() || uploading()">
+        {{ uploading() ? 'Uploading…' : 'Upload document' }}
+      </button>
+    </footer>
+  </div>
+</div>
