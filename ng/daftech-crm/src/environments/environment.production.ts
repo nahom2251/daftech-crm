@@ -3,7 +3,7 @@ import type { AppEnvironment } from './environment.model';
 export const environment: AppEnvironment = {
   name: 'production',
   production: true,
-  apiBaseUrl: 'https://daftech-crm-api.onrender.com/api', // ← Backend URL
+  apiBaseUrl: 'https://daftech-crm-api2.onrender.com/api',
   features: {
     aiNarrativeReports: true,
     pdfExport: true,
