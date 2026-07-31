@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "build:staging": "node scripts/set-api-url.mjs && ng build --configuration staging",
     "build:prod": "node scripts/set-api-url.mjs && ng build --configuration production"
@@ -23,7 +23,8 @@
     "tslib": "^2.6.0",
     "zone.js": "~0.14.4",
     "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.8.2"
+    "jspdf-autotable": "^3.8.2",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.0",
