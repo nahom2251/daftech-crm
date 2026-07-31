@@ -1,7 +1,7 @@
 services:
   # ---------- Backend API (.NET via Docker) ----------
   - type: web
-    name: daftech-crm-api
+    name: daftech-crm-api2
     runtime: docker
     rootDir: api/DaftechCrm
     dockerfilePath: Dockerfile
@@ -10,16 +10,28 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: daftech-crm-db
+          property: connectionString
 
-  # ---------- Frontend (Angular - Static) ----------
+  # ---------- Frontend (Angular via Node.js + Express) ----------
   - type: web
     name: daftech-crm-web
-    runtime: static
+    runtime: node
     rootDir: ng/daftech-crm
-    buildCommand: npm run build
-    staticPublishPath: dist/daftech-crm/browser
+    buildCommand: npm install && npm run build:prod
+    startCommand: node server.js
     plan: free
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+    envVars:
+      - key: API_BASE_URL
+        value: https://daftech-crm-api2.onrender.com/api
+      - key: NODE_VERSION
+        value: 20.0.0
+
+databases:
+  - name: daftech-crm-db
+    databaseName: daftech_crm
+    user: daftech
+    plan: free
+    region: oregon
