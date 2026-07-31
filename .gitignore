@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+api/DaftechCrm/logs/
+api/DaftechCrm/App_Data/
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+
+# Env & secrets
+.env
+.env.*
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
