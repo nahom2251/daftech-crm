@@ -1,15 +1,9 @@
 import type { AppEnvironment } from './environment.model';
 
-/**
- * Production. `apiBaseUrl` is rewritten at build time by scripts/set-api-url.mjs
- * from the API_BASE_URL environment variable (required when the API is deployed on
- * a different host than the frontend, e.g. Render). The committed default assumes a
- * reverse proxy that serves the API on the same origin under /api.
- */
 export const environment: AppEnvironment = {
   name: 'production',
   production: true,
-  apiBaseUrl: '/api',
+  apiBaseUrl: 'https://daftech-crm-api.onrender.com/api', // ← Backend URL
   features: {
     aiNarrativeReports: true,
     pdfExport: true,
@@ -17,11 +11,11 @@ export const environment: AppEnvironment = {
     serviceWorker: false,
   },
   logging: {
-    level: 'warn',
+    level: 'error',
     logHttpErrorsToConsole: false,
   },
   auth: {
-    sessionLifetimeMinutes: 240,
+    sessionLifetimeMinutes: 480,
     refreshThresholdMinutes: 10,
   },
 };
