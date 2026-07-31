@@ -1,11 +1,10 @@
 services:
-  # ---------- Angular frontend (static site) ----------
   - type: web
     name: daftech-crm
     runtime: static
     rootDir: ng/daftech-crm
-    buildCommand: npm ci && npm run build
-    staticPublishPath: dist/daftech-crm
+    buildCommand: npm run build
+    staticPublishPath: dist/daftech-crm/browser
     routes:
       - type: rewrite
         source: /*
