@@ -14,7 +14,7 @@ export const environment: AppEnvironment = {
     aiNarrativeReports: true,
     pdfExport: true,
     fileUpload: true,
-    serviceWorker: true,
+    serviceWorker: false,
   },
   logging: {
     level: 'warn',
