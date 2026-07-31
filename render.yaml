@@ -1,70 +1,12 @@
-# Render blueprint for the DAFTECH CRM system.
-# Create the stack with: Render Dashboard -> New -> Blueprint -> pick this repo.
 services:
-  # ---------- ASP.NET Core 10 API (Docker) ----------
-  - type: web
-    name: daftech-crm-api
-    runtime: docker
-    plan: starter
-    region: frankfurt
-    dockerfilePath: ./api/DaftechCrm/Dockerfile
-    dockerContext: ./api/DaftechCrm
-    healthCheckPath: /health/live
-    autoDeploy: true
-    disk:
-      name: daftech-uploads
-      mountPath: /var/data
-      sizeGB: 1
-    envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: DATABASE_URL
-        fromDatabase:
-          name: daftech-crm-db
-          property: connectionString
-      - key: CORS_ALLOWED_ORIGINS
-        # Set to the frontend URL once it is live, e.g. https://daftech-crm-web.onrender.com
-        sync: false
-      - key: Storage__RootPath
-        value: /var/data/uploads
-      - key: LOG_DIR
-        value: /var/data/logs
-      - key: Smtp__Host
-        sync: false
-      - key: Smtp__Username
-        sync: false
-      - key: Smtp__Password
-        sync: false
-
   # ---------- Angular frontend (static site) ----------
   - type: web
-    name: daftech-crm-web
+    name: daftech-crm
     runtime: static
-    plan: starter
     rootDir: ng/daftech-crm
-    buildCommand: npm ci && npm run build:prod
-    staticPublishPath: dist/daftech-crm/browser
-    autoDeploy: true
-    envVars:
-      # Injected into environment.production.ts at build time by scripts/set-api-url.mjs
-      - key: API_BASE_URL
-        sync: false
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist/daftech-crm
     routes:
-      # SPA fallback so deep links (e.g. /staff/reports) resolve to index.html.
       - type: rewrite
         source: /*
         destination: /index.html
-    headers:
-      - path: /*
-        name: X-Frame-Options
-        value: DENY
-      - path: /*
-        name: X-Content-Type-Options
-        value: nosniff
-
-databases:
-  - name: daftech-crm-db
-    databaseName: daftech_crm
-    user: daftech
-    plan: basic-256mb
-    region: frankfurt
